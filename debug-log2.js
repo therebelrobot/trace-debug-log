@@ -11,43 +11,31 @@
 // WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 // IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"use strict"
 
-var stackTrace = require('stack-trace')
-var colors = require('colors')
+'use strict'
+
+var chalk = require('chalk')
 var path = require('path')
+var stackTrace = require('stack-trace')
+var util = require('util')
 
-var debugRun = function(){
-  var log = function _log() {
-    if (toBool(process.env.DEBUG)) {
-      var args, file, frame, line, method
-      args = arguments.length >= 1 ? [].slice.call(arguments, 0) : []
+module.exports = function debugRun (section) {
+  var debug = util.debuglog(section)
 
-      frame = stackTrace.get()[1]
-      file = path.basename(frame.getFileName())
-      line = frame.getLineNumber()
-      method = frame.getFunctionName()
+  return function _log () {
+    // convert to real array
+    var args = Array.prototype.slice.call(arguments)
 
-      args.unshift("" + file + ":" + line + " in " + method + "()")
-      args[0] = args[0].grey
-      console.log.apply(console, args)
-      return args
-    }
-    return false
-  }
-  log['toggle'] = function _toggle (){
-    process.env.DEBUG = !toBool(process.env.DEBUG)
-  }
-  log['enable'] = function _enable (){
-    process.env.DEBUG = true
-  }
-  log['disable'] = function _disable (){
-    process.env.DEBUG = false
-  }
-  return log
-}
-module.exports = debugRun()
+    var callSite = stackTrace.get()[1]
+    var file = path.basename(callSite.getFileName())
+    var line = callSite.getLineNumber()
+    var method = callSite.getFunctionName()
 
-function toBool(val){
-  return val === 'true'
+    // construct stack trace line
+    args.unshift(chalk.grey(util.format('%s:%s in %s()', file, line, method)))
+
+    debug.apply(util, args)
+
+    return args
+  }
 }

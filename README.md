@@ -1,6 +1,8 @@
 # debug-log2
 
-An environment based mini-lib to replace console.log in Node.js applications. Adds log context information automatically. Without the `DEBUG` environment variable, all logs are silent.
+Provides an alternative to [`util.debugLog`](https://nodejs.org/api/util.html#util_util_debuglog_section) with a simple stack trace, containing the filename, line number, and caller function.
+
+This is used to create a function which conditionally writes to stderr based on the existence of a `NODE_DEBUG` environment variable. If the section name appears in that environment variable, then the returned function will be similar to `console.error()`.
 
 ## Install
 
@@ -11,11 +13,9 @@ npm install --save debug-log2
 ## Usage
 
 ```js
-var debug = require('debug-log2')
+var debug = require('debug-log2')('foo')
 
-debug.enable()
-
-function _namedFunction(param){
+function _namedFunction (param) {
   debug('This is an example', param)
 }
 
@@ -26,14 +26,6 @@ _namedFunction(42)
 _namedFunction({param:'foo'})
 // app.js:6 in _namedFunction() This is an example { param: 'foo' }
 ```
-
-###`debug.enable()`
-
-This is a helper function so you do not need to set the environment variable prior to running your app. If this gets run, `process.env.DEBUG` will be set to true, and all debug logs will be printed to console.
-
-###`debug.disable()`
-
-This is a helper function to unset the debug variable. If this gets run, `process.env.DEBUG` will be set to false, and all debug logs will be ignored.
 
 ## LICENSE (ISC)
 
