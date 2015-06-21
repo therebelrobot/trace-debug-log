@@ -1,6 +1,6 @@
 {
   "name": "debug-log2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An environment based mini-lib to replace console.log in Node.js applications",
   "main": "debug-log2.js",
   "scripts": {
