@@ -5,11 +5,13 @@ var debug = require('../debug-log2')('test')
 
 describe('debug-log2', function () {
   it('should return a function', function _debugReturnFunction (done) {
+    debug.enable()
     expect(debug).to.be.a('function')
     done()
   })
 
   it('should return file position if empty', function _debugReturnFunction (done) {
+    debug.enable()
     var returns = debug()
     expect(returns).to.be.an('array')
     expect(returns.length).to.equal(1)
@@ -17,6 +19,7 @@ describe('debug-log2', function () {
   })
 
   it('should return filename', function _debugReturnFilename (done) {
+    debug.enable()
     var returns = debug('Hello')[0].split('\u001b[90m')[1].split('\u001b[39m')[0]
     var filename = returns.split(':')[0]
     expect(filename).to.be.a('string')
@@ -25,6 +28,7 @@ describe('debug-log2', function () {
   })
 
   it('should return function name', function _debugReturnFunctionName (done) {
+    debug.enable()
     var returns = debug('Hello')[0].split('\u001b[90m')[1].split('\u001b[39m')[0]
     var funcName = returns.split(' ')
     funcName = funcName[funcName.length - 1]
@@ -34,14 +38,16 @@ describe('debug-log2', function () {
   })
 
   it('should return line number', function _debugReturnLineNumber (done) {
+    debug.enable()
     var returns = debug('Hello')[0].split('\u001b[90m')[1].split('\u001b[39m')[0]
     var filename = returns.split(':')[1].split(' ')[0]
     expect(filename).to.be.a('string')
-    expect(filename).to.equal('37')
+    expect(filename).to.equal('42')
     done()
   })
 
   it('should return a string parameter', function _debugReturnStringParam (done) {
+    debug.enable()
     var returns = debug('Hello')[1]
     expect(returns).to.be.a('string')
     expect(returns).to.equal('Hello')
@@ -49,6 +55,7 @@ describe('debug-log2', function () {
   })
 
   it('should return a number parameter', function _debugReturnNumberParam (done) {
+    debug.enable()
     var returns = debug(45)[1]
     expect(returns).to.be.a('number')
     expect(returns).to.equal(45)
@@ -56,6 +63,7 @@ describe('debug-log2', function () {
   })
 
   it('should return an array parameter', function _debugReturnArrayParam (done) {
+    debug.enable()
     var returns = debug(['foo', 'bar'])[1]
     expect(returns).to.be.an('array')
     expect(returns).to.deep.equal(['foo', 'bar'])
@@ -63,6 +71,7 @@ describe('debug-log2', function () {
   })
 
   it('should return an object parameter', function _debugReturnObjectParam (done) {
+    debug.enable()
     var returns = debug({foo: 'bar'})[1]
     expect(returns).to.be.an('object')
     expect(returns).to.deep.equal({foo: 'bar'})
@@ -70,9 +79,63 @@ describe('debug-log2', function () {
   })
 
   it('should return an multiple parameters', function _debugReturnMultipleParams (done) {
+    debug.enable()
     var returns = debug(45, 'hello')
     returns.shift()
     expect(returns.length).to.be.above(1)
     done()
+  })
+
+  it('should return false if NODE_DEBUG variable is not set in environment', function _debugNoDEBUG (done) {
+    debug.disable()
+    var returns = debug('false hello')
+    expect(returns).to.be.false
+    done()
+  })
+
+  describe('enable', function () {
+    it('should return a function', function _debugOnReturnFunction (done) {
+      expect(debug.enable).to.be.a('function')
+      done()
+    })
+
+    it('should turn on NODE_DEBUG environment variable', function _debugOnFunctions (done) {
+      debug.enable()
+      expect(process.env.NODE_DEBUG).to.match(/\bTEST\b/g)
+      done()
+    })
+  })
+
+  describe('disable', function () {
+    it('should return a function', function _debugOffReturnFunction (done) {
+      expect(debug.disable).to.be.a('function')
+      done()
+    })
+
+    it('should turn disable NODE_DEBUG environment variable', function _debugOffFunctions (done) {
+      debug.enable()
+      debug.disable()
+      expect(process.env.NODE_DEBUG).to.not.match(/\bTEST\b/g)
+      done()
+    })
+  })
+
+  describe('toggle', function () {
+    it('should return a function', function _debugToggleReturnFunction (done) {
+      expect(debug.toggle).to.be.a('function')
+      done()
+    })
+
+    it('should toggle NODE_DEBUG environment variable', function _debugToggleFunctions (done) {
+      debug.enable()
+      expect(process.env.NODE_DEBUG).to.match(/\bTEST\b/g)
+
+      debug.toggle()
+      expect(process.env.NODE_DEBUG).to.not.match(/\bTEST\b/g)
+
+      debug.toggle()
+      expect(process.env.NODE_DEBUG).to.match(/\bTEST\b/g)
+      done()
+    })
   })
 })
