@@ -2,7 +2,7 @@
 
 Provides an alternative to [`util.debugLog`](https://nodejs.org/api/util.html#util_util_debuglog_section) with a simple stack trace, containing the filename, line number, and caller function.
 
-This is used to create a function which conditionally writes to stderr based on the existence of a `NODE_DEBUG` environment variable. If the section name appears in that environment variable, then the returned function will be similar to `console.error()`.
+This is used to create a function which conditionally writes to stderr based on the existence of a `NODE_DEBUG` environment variable. If the section name appears in that environment variable, then the returned function will be similar to `console.error()`. If not, then the returned function is a no-op.
 
 ## Install
 
@@ -26,6 +26,14 @@ _namedFunction(42)
 _namedFunction({param:'foo'})
 // app.js:6 in _namedFunction() This is an example { param: 'foo' }
 ```
+
+###`debug.enable()`
+
+This is a helper function so you do not need to set the environment variable prior to calling your debug function. If this gets run, `process.env.NODE_DEBUG` will be modified to add the approriate section, and all debug logs will be printed to console.
+
+###`debug.disable()`
+This is a helper function to unset the debug variable for the specific section. If this gets run, `process.env.NODE_DEBUG` will be modified to remove the specific section, and all debug logs will be ignored.
+
 
 ## LICENSE (ISC)
 
