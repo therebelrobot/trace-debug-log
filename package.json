@@ -1,14 +1,15 @@
 {
-  "name": "debug-log2",
-  "version": "1.0.1",
+  "name": "trace-debug-log",
+  "version": "1.0.0",
   "description": "An environment based mini-lib to replace console.log in Node.js applications",
-  "main": "debug-log2.js",
+  "main": "trace-debug-log.js",
   "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js cover _mocha --"
+    "pretest": "standard",
+    "test": "istanbul cover _mocha --"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/therebelrobot/debug-log2.git"
+    "url": "https://github.com/therebelrobot/trace-debug-log.git"
   },
   "keywords": [
     "log",
@@ -21,9 +22,11 @@
   "author": "Trent Oswald <trentoswald@therebelrobot.com> (http://therebelrobot.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/therebelrobot/debug-log2/issues"
+    "url": "https://github.com/therebelrobot/trace-debug-log/issues"
   },
-  "homepage": "https://github.com/therebelrobot/debug-log2",
+  "contributors":[
+  ]
+  "homepage": "https://github.com/therebelrobot/trace-debug-log",
   "devDependencies": {
     "chai": "^2.2.0",
     "istanbul": "^0.3.13",
