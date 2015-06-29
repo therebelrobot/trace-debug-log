@@ -25,7 +25,7 @@
     "url": "https://github.com/therebelrobot/trace-debug-log/issues"
   },
   "contributors":[
-  ]
+  ],
   "homepage": "https://github.com/therebelrobot/trace-debug-log",
   "devDependencies": {
     "chai": "^2.2.0",
