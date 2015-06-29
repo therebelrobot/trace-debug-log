@@ -1,17 +1,17 @@
-# debug-log2
+# trace-debug-log
 
-An environment based mini-lib to replace console.log in Node.js applications. Adds log context information automatically. Without the `DEBUG` environment variable, all logs are silent.
+An environment based mini-lib to replace console.log in Node.js applications. Adds log trace and context information automatically. Without the `DEBUG` environment variable, all logs are silent.
 
 ## Install
 
 ```sh
-npm install --save debug-log2
+npm install --save trace-debug-log
 ```
 
 ## Usage
 
 ```js
-var debug = require('debug-log2')
+var debug = require('trace-debug-log')
 
 debug.enable()
 
