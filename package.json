@@ -30,11 +30,10 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "istanbul": "^0.3.13",
-    "mocha": "^2.2.4",
-    "standard": "^3.6.1"
+    "mocha": "^2.2.4"
   },
   "dependencies": {
-    "colors": "^1.0.3",
+    "chalk": "^1.0.0",
     "stack-trace": "0.0.9"
   }
 }
