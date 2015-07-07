@@ -1,6 +1,6 @@
 {
   "name": "trace-debug-log",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An environment based mini-lib to replace console.log in Node.js applications",
   "main": "trace-debug-log.js",
   "scripts": {
